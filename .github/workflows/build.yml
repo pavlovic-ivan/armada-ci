@@ -12,11 +12,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Go (no caching)
-        uses: actions/setup-go@v4
-        with:
-          go-version: '1.20'
-          cache: false
+      - name: Echo
+        run: exit 0
 
   pack-nuget:
     runs-on: ubuntu-latest
@@ -28,7 +25,5 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - name: Setup the latest .NET 7 SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 7.0.x
+      - name: Echo
+        run: exit 0
