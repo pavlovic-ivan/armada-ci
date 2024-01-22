@@ -1,0 +1,76 @@
+name: Tests
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  ts-unit-tests:
+    name: TypeScript Unit Tests
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.2
+          cache: yarn
+          cache-dependency-path: ./internal/lookout/ui/yarn.lock
+
+  go-unit-tests:
+    name: Golang Unit Tests
+    needs: go-mod-up-to-date
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+
+      - name: Echo
+        run: exit 0
+
+  go-integration-tests:
+    name: Golang Integration Tests
+    needs: go-mod-up-to-date
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+
+      - name: Echo
+        run: exit 0
+
+  go-mod-up-to-date:
+    name: Golang Mod Up To Date
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3.3.0
+
+      - name: Set up Go (no caching)
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+          cache: false
+
+  proto-up-to-date:
+    name: Proto Up To Date
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v2
+        with:
+          version: '23.3'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
