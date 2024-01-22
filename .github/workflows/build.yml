@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  workflow_call:
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest-16-cores
+    if: github.repository_owner == 'armadaproject'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go (no caching)
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+          cache: false
+
+  pack-nuget:
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Setup the latest .NET 7 SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
